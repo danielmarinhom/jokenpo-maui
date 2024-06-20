@@ -5,8 +5,37 @@
              Title="Jokenpo">
     <VerticalStackLayout>
         <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+            Text="Countdown"
+            />
+        <HorizontalStackLayout>
+            <Image
+                Source="{Binding SourcePlayer}"
+            />
+            <Image 
+                Source="{Binding SourceBot}"
+                />
+        </HorizontalStackLayout>
+        <Picker 
+            SelectedIndex="{Binding IndexPicker}"
+            Title="Pick">
+            
+
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Rock</x:String>
+                    <x:String>Paper</x:String>
+                    <x:String>Scissors</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+        <Button 
+                x:Name="ButtonChoose"
+                Text="Choose"
+                FontSize="15"
+                HorizontalOptions="Center"
+                BackgroundColor="Gray"
+                TextColor="White"
+                Command="{Binding FlipCommand}"
+                />
     </VerticalStackLayout>
 </ContentPage>
