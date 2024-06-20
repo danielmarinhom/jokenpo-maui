@@ -9,7 +9,7 @@ namespace Jokenpo.Model
     public class Bot
     {
         public Options Side { get; set; }
-        Side = Options.Rock; 
+
         public void sortSide()
         {
             Random random = new Random();
