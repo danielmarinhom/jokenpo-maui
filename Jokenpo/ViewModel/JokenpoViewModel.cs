@@ -1,58 +1,94 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Jokenpo.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Jokenpo.ViewModel
 {
     public partial class JokenpoViewModel : ObservableObject
     {
+        [ObservableProperty]
+        private int scorePlayer;
 
-        int ScorePlayer { get; set; }
-        int ScoreBot { get; set; }
-        string lastWinner { get; set; }
+        [ObservableProperty]
+        private int scoreBot;
+
+        [ObservableProperty]
+        private string lastWinner;
 
         [ObservableProperty]
         private string sourcePlayer;
+
         [ObservableProperty]
         private string sourceBot;
+
         [ObservableProperty]
-        private Options indexPicker;
+        private int indexPicker;
 
-        Bot bot = new Bot();
+        [ObservableProperty]
+        private string winner;
 
+        private Bot bot = new Bot();
 
+        public ICommand FlipCommand { get; }
 
-        public void getWinner()
+        public JokenpoViewModel()
         {
-            bot.sortSide();
-
-            SourceBot = bot.Side +".jpeg" ;
-            SourcePlayer =  IndexPicker+ ".jpeg";
-
-            //if (bot.Side == (Options)indexPicker)
-            if (bot.Side == (Options)1 && IndexPicker == (Options)3 ||
-               bot.Side == (Options)2 && IndexPicker == (Options)1 ||
-               bot.Side == (Options)3 && IndexPicker == (Options)2
-                )
-            {
-                ScoreBot += 1;
-                lastWinner = "bot";
-            }
-            else if(
-               IndexPicker == (Options)1 && bot.Side == (Options)3 ||
-               IndexPicker == (Options)2 && bot.Side == (Options)1 ||
-               IndexPicker == (Options)3 && bot.Side == (Options)2
-                )
-            {
-                ScorePlayer += 1;
-                lastWinner = "player";
-            }
-
+            FlipCommand = new RelayCommand(GetWinner);
         }
 
+        public void GetWinner()
+        {
+
+            bot.sortSide();
+            Options selectedOption = (Options)(IndexPicker + 1);
+
+            SourceBot = $"{bot.Side.ToString().ToLower()}.jpeg";
+
+            SourcePlayer = $"{selectedOption.ToString().ToLower()}.jpeg";
+            if(VerifyWinner() != "") {
+                Winner = VerifyWinner();
+                ScoreBot = 0;
+                ScorePlayer = 0;
+                return;
+            }if(ScoreBot != 0 || ScorePlayer != 0)
+            {
+                Winner = "";
+            }
+            if (bot.Side == Options.Rock && selectedOption == Options.Scissors ||
+                bot.Side == Options.Paper && selectedOption == Options.Rock ||
+                bot.Side == Options.Scissors && selectedOption == Options.Paper)
+            {
+                ScoreBot++;
+                LastWinner = "bot";
+            }
+            else if (
+                selectedOption == Options.Rock && bot.Side == Options.Scissors ||
+                selectedOption == Options.Paper && bot.Side == Options.Rock ||
+                selectedOption == Options.Scissors && bot.Side == Options.Paper)
+            {
+                ScorePlayer++;
+                LastWinner = "player";
+            }
+            else
+            {
+                LastWinner = "draw";
+            }
+        }
+        public string VerifyWinner()
+        {
+            if(ScorePlayer >= 10)
+            {
+                return "Player Won";
+            }
+            else if(ScoreBot >= 10)
+            {
+                return "Bot Won";
+            }
+            else
+            {
+                return "";
+            }
+        }
     }
 }

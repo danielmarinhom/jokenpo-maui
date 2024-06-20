@@ -13,7 +13,7 @@ namespace Jokenpo.Model
         public void sortSide()
         {
             Random random = new Random();
-            int randomSide = random.Next(3);
+            int randomSide = random.Next(1,4);
             Options options = (Options)randomSide;
             Side = options;
         }

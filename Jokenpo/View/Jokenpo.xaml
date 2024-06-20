@@ -4,22 +4,38 @@
              x:Class="Jokenpo.View.Jokenpo"
              Title="Jokenpo">
     <VerticalStackLayout>
-        <Label 
-            Text="Countdown"
-            />
-        <HorizontalStackLayout>
-            <Image
-                Source="{Binding SourcePlayer}"
-            />
-            <Image 
-                Source="{Binding SourceBot}"
-                />
+        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+            <VerticalStackLayout>
+                <Label 
+                    Text="Player"
+                    FontSize="Large"
+                    HorizontalOptions="Center" />
+                <Image
+                    Source="{Binding SourcePlayer}"
+                    WidthRequest="400"
+                    HeightRequest="400"
+                    Aspect="AspectFit"
+                    Margin="10" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+                <Label 
+                    Text="Bot"
+                    FontSize="Large"
+                    HorizontalOptions="Center" />
+                <Image 
+                    Source="{Binding SourceBot}"
+                    WidthRequest="400"
+                    HeightRequest="400"
+                    Aspect="AspectFit"
+                    Margin="10" />
+            </VerticalStackLayout>
         </HorizontalStackLayout>
         <Picker 
             SelectedIndex="{Binding IndexPicker}"
-            Title="Pick">
-            
-
+            Title="Pick"
+            HorizontalOptions="Center"
+            VerticalOptions="CenterAndExpand">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>Rock</x:String>
@@ -29,13 +45,28 @@
             </Picker.ItemsSource>
         </Picker>
         <Button 
-                x:Name="ButtonChoose"
-                Text="Choose"
-                FontSize="15"
-                HorizontalOptions="Center"
-                BackgroundColor="Gray"
-                TextColor="White"
-                Command="{Binding FlipCommand}"
-                />
+            x:Name="ButtonChoose"
+            Text="Choose"
+            FontSize="15"
+            HorizontalOptions="Center"
+            BackgroundColor="Gray"
+            TextColor="White"
+            Command="{Binding FlipCommand}"
+            VerticalOptions="CenterAndExpand" />
+        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+            <Label
+                Text="{Binding ScorePlayer}"
+                FontSize="Large"
+                HorizontalOptions="Center" />
+            <Label
+                Text="{Binding ScoreBot}"
+                FontSize="Large"
+                HorizontalOptions="Center" />
+        </HorizontalStackLayout>
+        <Label
+            Text="{Binding Winner}"
+            HorizontalOptions="CenterAndExpand"
+            TextColor="Blue"
+            />
     </VerticalStackLayout>
 </ContentPage>
